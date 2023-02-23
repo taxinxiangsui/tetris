@@ -1,5 +1,5 @@
 import type { Point } from "@/assets/types/types";
-import { blockSize } from "@/container/config";
+import { blockSize, color } from "@/container/config";
 import { h } from "vue";
 import type Block from "./block";
 import BlockView from './blockView.vue'
@@ -7,8 +7,10 @@ export default class BlockViewClass {
     get block() {
         return this._block
     }
-    constructor(private _block: Block) { }
-    show(color: string, point: Point) {
+    constructor(private _block: Block, point: Point) {
+        this._block.point = point
+    }
+    show() {
         return h(
             BlockView,
             {
@@ -16,8 +18,8 @@ export default class BlockViewClass {
                 color,
                 size: blockSize,
                 position: {
-                    left: point.x * blockSize + 'px',
-                    top: point.y * blockSize + 'px',
+                    left: this._block.point.x * blockSize + 'px',
+                    top: this._block.point.y * blockSize + 'px',
                 }
             }
         )

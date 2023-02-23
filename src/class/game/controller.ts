@@ -1,5 +1,4 @@
-import type { Point } from "@/assets/types/types"
-import { blockSize } from "@/container/config"
+import { blockSize, color } from "@/container/config"
 import type { Ref } from "vue"
 import BlockGroup from "../block/blockGroup"
 import BlockGroupView from "../block/blockGroupView"
@@ -27,19 +26,10 @@ export default class Controller {
     static goon() {
         this.beginToBottom()
     }
-    static stop(shape: Point[], point: Point) {
+    static stop() {
         clearInterval(this._timer)
         this.breakUpGroup(this.blockGroup)
-        const result = container.setBlockAtPoint(shape, point)
-        // if (result.length) {
-        //     for (let i = 0; i < this._blockArr.length; i++) {
-        //         const hasResidue = this._blockArr[i].remove(result)
-        //         if (!hasResidue) {
-        //             this._blockArr.splice(i, 1)
-        //             i--
-        //         }
-        //     }
-        // }
+        container.setBlockAtPoint(this.blockGroup)
         this.cerateNewBlockGroup(this._blockGroupViewRef)
             .then(() => {
                 this.beginToBottom()
@@ -54,24 +44,21 @@ export default class Controller {
             this.blockGroup.move('down')
         }, 600)
     }
-    static createColor() {
-        const color = ['#fff', 'skyblue', 'green', 'red']
-        return color[Math.floor(Math.random() * 4)]
-    }
     private static breakUpGroup(blockGroup: BlockGroup) {
+        this._blockGroupViewRef.value = undefined
         for (const g of blockGroup.group) {
-            g.viewer = new BlockViewClass(g)
             const point = {
                 x: this.blockGroup.point.x + g.point.x,
                 y: this.blockGroup.point.y + g.point.y
             }
-            block_divs.set(JSON.stringify(point), g.viewer.show(this.blockGroup.color, point))
+            g.viewer = new BlockViewClass(g, point)
+            block_divs.set(g.id, g.viewer)
         }
     }
     private static cerateNewBlockGroup(blockGroupView: Ref<BlockGroupView | undefined>) {
         const [shape, shapeType] = creatShape()
         return new Promise((resolve) => {
-            this.blockGroup = new BlockGroup(shape, shapeType, this.createColor(), blockSize, { x: 5, y: 3 })
+            this.blockGroup = new BlockGroup(shape, shapeType, color, blockSize, { x: 5, y: 3 })
             this.blockGroup.viewer = new BlockGroupView(this.blockGroup)
             blockGroupView.value = this.blockGroup.viewer
             resolve('')

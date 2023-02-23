@@ -81,7 +81,7 @@ export default class BlockGroup {
                     this.move('down')
                 }
             } else if (direction === 'down' && !MoveRule.canMove(this._shape, { x: this.CP_reactive.x, y: this.CP_reactive.y + 1 })) {
-                Controller.stop(this._shape, { ...this.CP_reactive })
+                Controller.stop()
                 this._canMove = false
             }
         }

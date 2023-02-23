@@ -4,13 +4,13 @@
     <template v-if="blockGroupView">
       <component :is="blockGroupView.show()"></component>
     </template>
-    <template v-for="item in block_divs" :key="item[1].id">
-      <component :is="item[1]"></component>
+    <template v-for="item in block_divs" :key="item[0]">
+      <component :is="item[1].show()"></component>
     </template>
   </div>
   <button @click="game_start">start</button>
   <button @click="game_stop">stop</button>
-<button @click="game_suspend">suspend</button>
+  <button @click="game_suspend">suspend</button>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'

@@ -3,3 +3,4 @@ export const containerSize = {
     height: 25
 }
 export const blockSize = 30
+export const color = '#fff'

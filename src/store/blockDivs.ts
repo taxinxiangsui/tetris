@@ -1,4 +1,5 @@
-import { reactive, type VNode } from 'vue'
+import type BlockViewClass from '@/class/block/blockViewClass'
+import { reactive } from 'vue'
 
-const block_divs = reactive<Map<string, VNode>>(new Map())
+const block_divs = reactive<Map<number, BlockViewClass>>(new Map())
 export default block_divs

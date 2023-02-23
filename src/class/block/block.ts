@@ -1,9 +1,6 @@
-import type { Point } from '@/assets/types/types'
-import { containerSize } from '@/container/config'
 import { reactive } from 'vue'
-import container from '../container/container'
 import type BlockViewClass from './blockViewClass'
-let block_id: number = 0
+let block_id: number = 1
 export default class Block {
     private _point = reactive<{ x: number, y: number }>({
         x: 0,
@@ -31,15 +28,12 @@ export default class Block {
         this._point.x = p.x
         this._point.y = p.y
     }
-    down() {
-        const { width, height } = containerSize
+    down(maxDownHeight: number) {
         const { x, y } = this._point
-        if (x < 0 || x === width || y === height) {
-            return
+        if (y + 1 > maxDownHeight) {
+            return false
         }
-        if (container.hasBlockAtPoint({ x, y })) {
-            return
-        }
+        this._point.y++
+        return true
     }
-
 }
