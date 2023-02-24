@@ -10,6 +10,11 @@
           <template v-for="item in block_divs" :key="item[0]">
             <component :is="item[1].show()"></component>
           </template>
+          <template v-if="isGameOver">
+            <div class="mask">
+              <span>Game Over</span>
+            </div>
+          </template>
         </div>
         <div style="display: grid;margin-top: 20px;grid-template-columns: repeat(3,1fr);column-gap: 10px;">
           <button @click="game_start">开始游戏</button>
@@ -38,7 +43,6 @@
         <p style="margin-top: 10px;">→：向下</p>
       </div>
     </div>
-
   </div>
 </template>
 <script lang="ts" setup>
@@ -46,7 +50,7 @@ import { ref } from 'vue'
 import type BlockGroupView from './class/block/blockGroupView'
 import Controller from './class/game/controller'
 import { blockSize, containerSize } from './container/config'
-import block_divs, { integral } from '@/store/blockDivs'
+import block_divs, { integral, isGameOver } from '@/store/blockDivs'
 const blockGroupView = ref<BlockGroupView>()
 const nextBlockGroupView = ref<BlockGroupView>()
 const game_start = () => {
@@ -96,6 +100,28 @@ const game_continue = () => {
       position: relative;
       background-color: black;
       overflow: hidden;
+
+      .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(5px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        font-weight: 600;
+
+        span {
+          color: transparent;
+          background-clip: text;
+          -webkit-background-clip: text;
+          background-image: linear-gradient(to right, rgb(240, 101, 66), purple);
+        }
+
+      }
     }
   }
 
@@ -114,6 +140,7 @@ const game_continue = () => {
     .rule {
       margin-top: 20px;
       font-size: 12px;
+
       color: rgb(98, 96, 96);
       display: grid;
       grid-auto-rows: 40px;

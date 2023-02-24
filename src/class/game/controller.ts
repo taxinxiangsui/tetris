@@ -4,20 +4,16 @@ import BlockGroup from "../block/blockGroup"
 import BlockGroupView from "../block/blockGroupView"
 import container from "../container/container"
 import creatShape from "../core/creatShape"
-import block_divs from '@/store/blockDivs'
+import block_divs, { isGameOver } from '@/store/blockDivs'
 import BlockViewClass from "../block/blockViewClass"
 import { integral } from "@/store/blockDivs"
 export default class Controller {
     private static delay: number = 600
-    private static _isGameOver: boolean = false
     private static _timer?: number
     private static _blockGroup: BlockGroup
     private static _nextBlockGroup: BlockGroup
     private static _blockGroupViewRef: Ref<BlockGroupView | undefined>
     private static _nextBlockGroupViewRef: Ref<BlockGroupView | undefined>
-    static get isGameOver() {
-        return this._isGameOver
-    }
     static start(blockGroupView: Ref<BlockGroupView | undefined>, nextBlockGroupView: Ref<BlockGroupView | undefined>) {
         integral.value = 0
         this._blockGroupViewRef = blockGroupView
@@ -34,6 +30,9 @@ export default class Controller {
     }
     static stop() {
         clearInterval(this._timer)
+        if (this._blockGroup.point.y === 0) {
+            return isGameOver.value = true
+        }
         this.breakUpGroup()
         integral.value += container.setBlockAtPoint(this._blockGroup)
         this.delay = 600 - Math.floor(integral.value / 100) * 50
@@ -78,7 +77,7 @@ export default class Controller {
         this._nextBlockGroupViewRef.value = this._nextBlockGroup.viewer
     }
     private static keydown() {
-        document.addEventListener('keyup', (e) => {
+        document.addEventListener('keydown', (e) => {
             const { key } = e
             if (this._blockGroup.viewer) {
                 if (key === 'ArrowDown') {
