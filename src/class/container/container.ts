@@ -5,7 +5,7 @@ import type BlockGroup from "../block/blockGroup";
 class Container {
     private _curHeight: number = containerSize.height - 1
     private _coordinate: Map<string, number> = new Map()
-    setBlockAtPoint(blockGroup: BlockGroup): number[] {
+    setBlockAtPoint(blockGroup: BlockGroup): number {
         const result: number[] = []
         for (const g of blockGroup.group) {
             const point = { x: g.point.x, y: g.point.y }
@@ -17,11 +17,10 @@ class Container {
                 result.push(point.y)
             }
         }
-
         if (result.length) {
             this.reSetBlockAtPoint(result)
         }
-        return result
+        return result.length
     }
     hasBlockAtPoint(point: Point): boolean {
         const p = JSON.stringify(point)

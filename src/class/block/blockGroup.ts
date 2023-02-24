@@ -20,6 +20,10 @@ export default class BlockGroup {
         y: 0
     })
     private _canMove: boolean = true
+    set point(p) {
+        this.CP_reactive.x = p.x
+        this.CP_reactive.y = p.y
+    }
     get point() {
         return { ...this.CP_reactive }
     }
