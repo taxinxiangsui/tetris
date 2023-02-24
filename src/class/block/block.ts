@@ -29,7 +29,7 @@ export default class Block {
         this._point.y = p.y
     }
     down(maxDownHeight: number) {
-        const { x, y } = this._point
+        const { y } = this._point
         if (y + 1 > maxDownHeight) {
             return false
         }

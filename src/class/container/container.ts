@@ -55,16 +55,6 @@ class Container {
             }
             isRowEmpty = true
         }
-
-        // const newCoordinate = Array.from(this._coordinate.entries())
-        //     .filter(v => v[1] && JSON.parse(v[0]).y < result[0])
-
-        // // newCoordinate.reduce((previous,current)=>)
-        // for (const p of newCoordinate) {
-        //     const newP = `{"x":${JSON.parse(p[0]).x},"y":${JSON.parse(p[0]).y + result.length}}`
-        //     this._coordinate.set(p[0], false)
-        //     this._coordinate.set(newP, true)
-        // }
     }
 }
 const container = new Container()
