@@ -54,6 +54,7 @@ class Container {
             }
             isRowEmpty = true
         }
+        this._curHeight += result.length
     }
 }
 const container = new Container()
